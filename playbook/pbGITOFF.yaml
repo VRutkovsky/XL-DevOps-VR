@@ -1,0 +1,7 @@
+- hosts: webservers
+  tasks:
+  - name: "remove GIT"
+    ansible.builtin.apt:
+      name: git
+      state: absent
+    become: yes
