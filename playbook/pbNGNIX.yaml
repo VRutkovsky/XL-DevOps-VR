@@ -1,7 +1,4 @@
 - hosts: webservers
-  vars:
-    root_dir: /home/vagrant/XL-DevOps-VR/playbook
-    nginx_port: 8080
   tasks:
     - name: install nginx
       ansible.builtin.apt:
@@ -10,7 +7,7 @@
       become: yes
 
     - name: copy html file
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src: "{{root_dir}}/index.html"
         dest: /usr/share/nginx/html/index.html
       become: yes
