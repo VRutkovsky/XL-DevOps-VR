@@ -1,4 +1,7 @@
 - hosts: webservers
+  vars:
+    root_dir: /home/vagrant/XL-DevOps-VR/playbook
+    nginx_port: 8080
   tasks:
     - name: install nginx
       ansible.builtin.apt:
@@ -8,13 +11,13 @@
 
     - name: copy html file
       ansible.builtin.copy:
-        src: /home/vagrant/XL-DevOps-VR/playbook/index.html
+        src: "{{root_dir}}/index.html"
         dest: /usr/share/nginx/html/index.html
       become: yes
 
     - name: update nginx config
-      ansible.builtin.copy:
-        src: /home/vagrant/XL-DevOps-VR/playbook/nginx.conf
+      ansible.builtin.template:
+        src: "{{root_dir}}/nginx.conf"
         dest: /etc/nginx/nginx.conf
       notify:
         - restart nginx
