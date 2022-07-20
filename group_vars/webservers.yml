@@ -1,3 +1,7 @@
 root_dir: /home/vagrant/XL-DevOps-VR/playbook
 nginx_port: 80
 server_name: "{{ ansible_facts['hostname'] }}"
+users:
+  - { name: 'jaime', groups: 'adm' }
+  - { name: 'sansa', groups: 'syslog' }
+  - { name: 'robert', groups: 'syslog' }

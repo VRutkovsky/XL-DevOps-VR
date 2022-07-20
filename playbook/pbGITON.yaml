@@ -1,5 +1,4 @@
 - hosts: webservers
-  gather_facts: no
   tasks:
   - name: "install GIT"
     ansible.builtin.apt:
@@ -7,12 +6,26 @@
       state: present
       update_cache: yes
     become: true
-    tags: tgit
+
   - name: "install tar"
     ansible.builtin.apt:
       name: e3
       state: present
       update_cache: yes
     become: true
-    tags: tema
+
+  - name: add test users
+    ansible.builtin.user:
+      name: "{{ item.name }}"
+      state: present
+      groups: "{{ item.groups }}"
+    become: yes
+    loop: "{{ users }}"
+
+  - name: "copy GIT config"
+    ansible.builtin.template:
+      src: ~/XL-DevOps-VR/gitconfig
+      dest: "/home/{{item.name}}/.gitconfig"
+    become: yes
+    loop: "{{ users }}"
 
