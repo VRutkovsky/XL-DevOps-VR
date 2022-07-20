@@ -1,0 +1,10 @@
+- hosts: webservers
+  tasks:
+  - name: "install GIT"
+    ansible.builtin.apt:
+      name: mc
+      state: present
+      update_cache: yes
+    become: true
+    when: ansible_nodename == "yavr2"
+
