@@ -1,0 +1,28 @@
+- hosts: webservers
+  vars:
+    strSrv: "This is server {{ ansible_hostname | upper }}!"
+    strDate: "Deployed at: {{ '%Y-%m-%d %H:%M:%S' | strftime(ansible_date_time.epoch) }}"
+  tasks:
+
+    - name: copy html file
+      ansible.builtin.template:
+        src: ~/XL-DevOps-VR/templates/index.html.j2
+        dest: /usr/share/nginx/html/index.html
+      become: yes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
