@@ -1,0 +1,45 @@
+- hosts: webservers
+  roles:
+   - role: geerlingguy.nodejs
+     vars: 
+       nodejs_version: "16.x"
+     become: yes
+
+   - role: geerlingguy.postgresql
+     become: yes
+
+  vars:
+    dbname: test-development
+    dbport: 5432
+
+  tasks:
+    - name: "clone repository"
+      ansible.builtin.git: 
+        repo: https://github.com/hexlet-components/js-fastify-blog 
+        dest: /home/js-fastify-blog
+      become: yes
+
+    - name: "New DB create"
+      community.postgresql.postgresql_db:
+        state: present
+        name: "{{ dbname }}"
+      become: yes
+      become_user: postgres
+
+    - name: "add test user"
+      community.postgresql.postgresql_user:
+        state: present
+        name: "{{ dbuser }}"
+        password: "{{ dbpwd }}"
+      become: yes
+      become_user: postgres
+
+    - name: "copy db .ENV config"
+      ansible.builtin.template:
+        src: ~/XL-DevOps-VR/templates/.env
+        dest: "/home/srv-usr1/js-fastify-blog/.env"
+      become: yes
+
+
+
+
